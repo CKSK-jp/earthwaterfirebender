@@ -1,11 +1,19 @@
 // backend code for the rock paper scissors game
+
+// grab the html element that we want to access
+let presentChoice = document.getElementById("displayChoice");
+let cpuserSelection = document.getElementById("battle");
+const countdownDuration = 3;
+const countdownDisplay = document.getElementById("countDown");
+const startButton = document.getElementById("startButton");
+
+// Function to toggle between the start and game screen
 function showOptions() {
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("optionsScreen").style.display = "block";
 }
 
-// grab the html element that we want to access
-let presentChoice = document.getElementById("displayChoice");
+// Function for the user's choice
 let userSelection
 function userChoice(choice) {
     userSelection = choice;
@@ -13,9 +21,7 @@ function userChoice(choice) {
     return userSelection;
 }
 
-// Fn that generates the CPU choice
-// grab the html element that we want to access
-let cpuserSelection = document.getElementById("battle");
+// Function that generates the CPU choice
 function getComputerChoice() {
     let choice = (Math.floor(Math.random()*3) + 1)
     if (choice === 1) {
@@ -30,11 +36,13 @@ function getComputerChoice() {
     }
 }
 
-
+// Function for main game logic
 function playGame(userSelection, cpuserSelection) {
     // scenarios where you would win
-    if ((cpuserSelection === "rock" && userSelection === "paper") || (cpuserSelection === "paper" && userSelection === "scissors") || (cpuserSelection === "scissors" && userSelection === "rock")) {
-        console.log("You win!")
+    if (
+        (cpuserSelection === "rock" && userSelection === "paper") || (cpuserSelection === "paper" && userSelection === "scissors") || (cpuserSelection === "scissors" && userSelection === "rock")
+        ) {
+            console.log("You win!")
     // scenario where you tie
     } else if (cpuserSelection === userSelection) {
         console.log("You tied!")
@@ -43,16 +51,25 @@ function playGame(userSelection, cpuserSelection) {
     }
 }
 
-// Countdown duration in seconds
-const countdownDuration = 3;
-// Get the countdown display element
-const countdownDisplay = document.getElementById("countDown");
+// Loop to play x rounds
+let round = 1;
+function playRounds() {
+    if (round <= 5) {
+        console.log(`--- Round ${round} ---`)
+        let cpuAnswer = getComputerChoice();
+        console.log(`The CPU selected ${cpuAnswer}. Your selection: ${userSelection}`);
+        playGame(userSelection, cpuAnswer);
+        round++;
+        countdown();
+    } else {
+        console.log("Game Over!");
+    }
+}
 
-startButton.addEventListener("click", () => {
+// Function to start the countdown
+function countdown() {
     // Disable the start button
     startButton.disabled = true;
-
-    // Start the countdown
     let countdown = countdownDuration;
     countdownDisplay.textContent = countdown;
 
@@ -61,11 +78,14 @@ startButton.addEventListener("click", () => {
         countdownDisplay.textContent = countdown;
         if (countdown === 0) {
             clearInterval(countdownInterval);
-            // Perform additional actions after the countdown finishes
-            let cpuAnswer = getComputerChoice();
-            console.log("Countdown finished! CPU has decided!");
-            console.log("The cpu selectd: " + cpuAnswer + " .vs your selection: " + userSelection);
-            playGame(userSelection, cpuAnswer);
+            console.log("Coundown finished! CPU has decided!");
+            playRounds();
         }
     }, 1000);
+}
+
+// Event listener for start button
+startButton.addEventListener("click", () => {
+    showOptions();
+    countdown();
 });
