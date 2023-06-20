@@ -3,11 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RockPaperScissors</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="app.js"></script>
 </head>
 <body>
-    <button onclick="getComputerChoice()">Press me!</button>
+    <div id="startScreen">
+        <h2>Challenge the Matrix to a Game of Rock Paper Scissors?</h2>
+        <button id="startButton" onclick="showOptions()">Start</button>
+    </div>
+        
+    <div id="optionsScreen">
+        <h2>Choose an Option:</h2>
+        <!-- get the user choice and store his answer in an argument for function called userChoice -->
+        <button onclick="userChoice('rock')">"Rock"</button>
+        <button onclick="userChoice('paper')">"Paper"</button>
+        <button onclick="userChoice('scissors')">"Scissors"</button>
+        
+        <div id="displayChoice"></div>
+    </div>
+
+    <div id="countdown-container">
+        <h1 id="countDown">3</h1>
+    </div>
+
+    <div id="battle"></div>
+    <script src="app.js"></script>
 </body>
 </html>
