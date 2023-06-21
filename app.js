@@ -40,7 +40,9 @@ function getComputerChoice() {
 function playGame(userSelection, cpuserSelection) {
     // scenarios where you would win
     if (
-        (cpuserSelection === "rock" && userSelection === "paper") || (cpuserSelection === "paper" && userSelection === "scissors") || (cpuserSelection === "scissors" && userSelection === "rock")
+        (cpuserSelection === "rock" && userSelection === "paper") || 
+        (cpuserSelection === "paper" && userSelection === "scissors") || 
+        (cpuserSelection === "scissors" && userSelection === "rock")
         ) {
             console.log("You win!")
     // scenario where you tie
