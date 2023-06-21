@@ -13,20 +13,28 @@
     </div>
         
     <div id="optionsScreen">
-        <h2>Choose an Option:</h2>
-        <!-- get the user choice and store his answer in an argument for function called userChoice -->
-        <button onclick="userChoice('rock')">"Rock"</button>
-        <button onclick="userChoice('paper')">"Paper"</button>
-        <button onclick="userChoice('scissors')">"Scissors"</button>
-        
-        <div id="displayChoice"></div>
+        <div class="second-container">
+            <div class="playerContainer">
+                <p id="playerChoice">My choice here</p>
+            </div>
+    
+            <div class="middleContainer">
+                <h2>Choose an Option:</h2>
+                <!-- get the user choice and store his answer in an argument for function called userChoice -->
+                <button onclick="userChoice('rock')">"Rock"</button>
+                <button onclick="userChoice('paper')">"Paper"</button>
+                <button onclick="userChoice('scissors')">"Scissors"</button>
+            </div>
+
+            <div class="cpuContainer">
+                <p id="cpuChoice">CPU choice here</p>
+            </div>
+        </div>
     </div>
 
     <div id="countdown-container">
         <h1 id="countDown">3</h1>
     </div>
-
-    <div id="battle"></div>
     <script src="app.js"></script>
 </body>
 </html>

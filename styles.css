@@ -12,7 +12,14 @@
 #countdown-container {
     display: flex;
     justify-content: center;
+    border: 1px red solid;
     height: 100vh;
+}
+
+.second-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 #countDown {

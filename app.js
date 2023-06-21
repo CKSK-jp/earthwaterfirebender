@@ -1,8 +1,8 @@
 // backend code for the rock paper scissors game
 
 // grab the html element that we want to access
-let presentChoice = document.getElementById("displayChoice");
-let cpuserSelection = document.getElementById("battle");
+let playerChoice = document.getElementById("playerChoice");
+let cpuChoice = document.getElementById("cpuChoice");
 const countdownDuration = 3;
 const countdownDisplay = document.getElementById("countDown");
 const startButton = document.getElementById("startButton");
@@ -17,7 +17,7 @@ function showOptions() {
 let userSelection
 function userChoice(choice) {
     userSelection = choice;
-    presentChoice.innerHTML += "<br>" + "You chose: " + userSelection;
+    playerChoice.innerHTML = "You chose: " + userSelection;
     return userSelection;
 }
 
@@ -25,28 +25,28 @@ function userChoice(choice) {
 function getComputerChoice() {
     let choice = (Math.floor(Math.random()*3) + 1)
     if (choice === 1) {
-        cpuserSelection.innerHTML = "rock";
+        cpuChoice.innerHTML = "The CPU chose: rock";
         return "rock";
     } else if (choice === 2) {
-        cpuserSelection.innerHTML = "paper";
+        cpuChoice.innerHTML = "The CPU chose: paper";
         return "paper";
     } else {
-        cpuserSelection.innerHTML = "scissors";
+        cpuChoice.innerHTML = "The CPU chose: scissors";
         return "scissors";
     }
 }
 
 // Function for main game logic
-function playGame(userSelection, cpuserSelection) {
+function playGame(userSelection, cpuChoice) {
     // scenarios where you would win
     if (
-        (cpuserSelection === "rock" && userSelection === "paper") || 
-        (cpuserSelection === "paper" && userSelection === "scissors") || 
-        (cpuserSelection === "scissors" && userSelection === "rock")
+        (cpuChoice === "rock" && userSelection === "paper") || 
+        (cpuChoice === "paper" && userSelection === "scissors") || 
+        (cpuChoice === "scissors" && userSelection === "rock")
         ) {
             console.log("You win!")
     // scenario where you tie
-    } else if (cpuserSelection === userSelection) {
+    } else if (cpuChoice === userSelection) {
         console.log("You tied!")
     } else {
         console.log("You Lost!")
@@ -78,6 +78,7 @@ function countdown() {
     const countdownInterval = setInterval(() => {
         countdown--;
         countdownDisplay.textContent = countdown;
+        // add boolean to check if user has made a move, if no move was made then give the cpu a win
         if (countdown === 0) {
             clearInterval(countdownInterval);
             console.log("Coundown finished! CPU has decided!");
