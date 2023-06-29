@@ -3,6 +3,9 @@
 // grab the html element that we want to access
 let playerChoice = document.getElementById("playerChoice");
 let cpuChoice = document.getElementById("cpuChoice");
+let scoreboard = document.getElementById("scoreboard");
+let playerResult = document.getElementById("playerResult");
+let cpuResult = document.getElementById("cpuResult");
 const countdownDuration = 3;
 const countdownDisplay = document.getElementById("countDown");
 const startButton = document.getElementById("startButton");
@@ -13,7 +16,6 @@ function showOptions() {
     document.getElementById("optionsScreen").style.display = "block";
 }
 
-var playerImg = document.createElement('img');
 // Function for the user's choice
 let userSelection
 function userChoice(choice) {
@@ -24,20 +26,16 @@ function userChoice(choice) {
       }
 
     if (choice === 'rock') {
-        playerImg.src = './photos/rock.png';
-        playerChoice.appendChild(playerImg);
+        playerChoice.src = './photos/playerEarth.jpeg';
     } else if (choice === 'paper') {
-        playerImg.src = './photos/paper.png';
-        playerChoice.appendChild(playerImg);
+        playerChoice.src = './photos/playerFire.jpeg';
     } else {
-        playerImg.src = './photos/scissors.png';
-        playerChoice.appendChild(playerImg);
+        playerChoice.src = './photos/playerWater.jpeg';
     }
     countdown(); // Start the countdown after the user makes a selection
     return userSelection;
 }
 
-var cpuImg = document.createElement('img');
 // Function that generates the CPU choice
 function getComputerChoice() {
     let choice = (Math.floor(Math.random()*3) + 1)
@@ -48,49 +46,54 @@ function getComputerChoice() {
       }
 
     if (choice === 1) {
-        cpuImg.src = './photos/rock.png';
-        cpuChoice.appendChild(cpuImg);
+        cpuChoice.src = './photos/cpuEarth.jpeg';
         return "rock";
     } else if (choice === 2) {
-        cpuImg.src = './photos/paper.png';
-        cpuChoice.appendChild(cpuImg);
+        cpuChoice.src = './photos/cpuFire.jpeg';
         return "paper";
     } else {
-        cpuImg.src = './photos/scissors.png';
-        cpuChoice.appendChild(cpuImg);
+        cpuChoice.src = './photos/cpuWater.jpeg';
         return "scissors";
     }
 }
 
 // Function for main game logic
-function playGame(userSelection, cpuSelection) {
-    // scenarios where you would win
-    if (
-        (cpuSelection === "rock" && userSelection === "paper") || 
-        (cpuSelection === "paper" && userSelection === "scissors") || 
-        (cpuSelection === "scissors" && userSelection === "rock")
-        ) {
-            console.log("You Won!")
-    // scenario where you tie
-    } else if (cpuSelection === userSelection) {
-        console.log("You Tied!")
-    } else {
-        console.log("You Lost!")
+function playGame(userSelection, playerScore, cpuScore) {
+    let cpuAnswer = getComputerChoice();
+    console.log(`The CPU selected ${cpuAnswer}. Your selection: ${userSelection}`);
+    // scenarios where you would win, tie or lose
+    if ((cpuAnswer === "rock" && userSelection === "paper") || 
+        (cpuAnswer === "paper" && userSelection === "scissors") || 
+        (cpuAnswer === "scissors" && userSelection === "rock")) 
+        {
+            playerResult.textContent = "You Won!";
+            cpuResult.textContent = "You Lost!";
+            scores.playerScore++;
+        } else if (cpuAnswer === userSelection) {
+            playerResult.textContent = "You Tied!";
+            cpuResult.textContent = "You Tied!";
+        } else {
+            playerResult.textContent = "You Lost!";
+            cpuResult.textContent = "You Won!";
+            scores.cpuScore++;
     }
+    return [playerScore, cpuScore];
 }
 
 // Loop to play x rounds
 let round = 1;
+let scores = {playerScore: 0, cpuScore: 0};
+
 function playRound() {
-    if (round <= 5) {
-        console.log(`--- Round ${round} ---`)
-        let cpuAnswer = getComputerChoice();
-        console.log(`The CPU selected ${cpuAnswer}. Your selection: ${userSelection}`);
-        playGame(userSelection, cpuAnswer);
-        round++;
-        countdown();
+    if (scores.playerScore === 5) {
+        scoreboard.textContent = `The winner is: YOU!`;
+    } else if (scores.cpuScore === 5){
+        scoreboard.textContent = `The winner is: THE CPU!`;
     } else {
-        console.log("Game Over!");
+        console.log(`--- Round ${round} ---`)
+        playGame(userSelection, scores);
+        round++;
+        scoreboard.textContent = `${scores.playerScore} vs. ${scores.cpuScore}`;
     }
 }
 
@@ -99,8 +102,6 @@ let isCountdownRunning = false;
 
 // Function to start the countdown
 function countdown() {
-
-
     if (isCountdownRunning) {
         return;
     }
@@ -116,7 +117,6 @@ function countdown() {
         if (countdown === 0) {
             clearInterval(countdownInterval);
             playRound();
-            console.log("Coundown finished! CPU has decided!");
             isCountdownRunning = false; // Reset the countdown running flag
         }
     }, 1000);
