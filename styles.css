@@ -14,27 +14,36 @@ body {
     display: none;
     text-align: center;
     padding: 20px;
-    border: 1px blue solid;
 }
 
-#countdown-container {
+.top-container {
     display: flex;
-    justify-content: center;
-    border: 1px red solid;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.bottom-container {
+    display: flex;
+    justify-content: space-evenly;
     height: 100vh;
 }
 
-.second-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+#playerResult, #cpuResult {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.choiceArea {
+    flex: 1; /* Added flex: 1 to make the option buttons occupy remaining space */
 }
 
 #countDown {
-    font-size: 72px;
+    font-size: 90px;
+    text-shadow: 5cm;
 }
 
-#cpuChoice img {
+#cpuArea img {
     width: 300px;
     height: 200px;
     max-width: 100%;
@@ -42,10 +51,17 @@ body {
     border: 1px solid black;
   }
 
-  #playerChoice img {
+
+  #playerArea img {
     width: 300px;
     height: 200px;
     max-width: 100%;
     max-height: 100%;
     border: 1px solid black;
+  }
+
+  #scoreboard {
+    font-weight: bold;
+    font-size: 24px;
+    padding: 20px;
   }
