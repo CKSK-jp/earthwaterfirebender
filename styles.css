@@ -2,18 +2,73 @@ body {
     background-image: url(./photos/Background.png);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
 }
 
 #startScreen {
-    text-align: center;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-#optionsScreen {
+button {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 60px;
+    font-weight: bold;
+    color: yellow; /* Set the text color */
+    text-shadow:
+    -1px -1px 0 #000, /* Top-left */
+    1px -1px 0 #000,  /* Top-right */
+    -1px 1px 0 #000,  /* Bottom-left */
+    1px 1px 0 #000;   /* Bottom-right */
+}
+
+h2 {
+    font-size: 40px;
+    font-weight: bold;
+    color: red; /* Set the text color */
+    text-shadow:
+    -1px -1px 0 #000, /* Top-left */
+    1px -1px 0 #000,  /* Top-right */
+    -1px 1px 0 #000,  /* Bottom-left */
+    1px 1px 0 #000;   /* Bottom-right */
+}
+
+.asian-font {
+    font-family: "Hanuman", "Noto Sans SC", "KaiTi", cursive;
+  }
+  
+
+#gameScreen {
     display: none;
     text-align: center;
-    padding: 20px;
+    justify-content: center;
+    height: 100vh;
+}
+
+#endScreen {
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrangeEnd {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100vh;
+}
+
+#endMiddle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .top-container {
@@ -43,24 +98,17 @@ body {
     text-shadow: 5cm;
 }
 
-#cpuArea img {
-    width: 300px;
-    height: 200px;
+#cpuArea img,
+#playerArea img,
+#finalPhoto img {
+    width: 400px;
+    height: 300px;
     max-width: 100%;
     max-height: 100%;
     border: 1px solid black;
   }
 
-
-  #playerArea img {
-    width: 300px;
-    height: 200px;
-    max-width: 100%;
-    max-height: 100%;
-    border: 1px solid black;
-  }
-
-  #scoreboard {
+#scoreboard {
     font-weight: bold;
     font-size: 24px;
     padding: 20px;

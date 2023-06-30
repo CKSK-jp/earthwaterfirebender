@@ -6,14 +6,34 @@ let cpuChoice = document.getElementById("cpuChoice");
 let scoreboard = document.getElementById("scoreboard");
 let playerResult = document.getElementById("playerResult");
 let cpuResult = document.getElementById("cpuResult");
-const countdownDuration = 3;
-const countdownDisplay = document.getElementById("countDown");
-const startButton = document.getElementById("startButton");
+let endScreen = document.getElementById("endResult");
+let playerFinal = document.getElementById("playerFinal");
+let cpuFinal = document.getElementById("cpuFinal");
+let countdownDisplay = document.getElementById("countDown");
+let startButton = document.getElementById("startButton");
 
 // Function to toggle between the start and game screen
-function showOptions() {
+function startGame() {
     document.getElementById("startScreen").style.display = "none";
-    document.getElementById("optionsScreen").style.display = "block";
+    document.getElementById("gameScreen").style.display = "block";
+    document.getElementById("endScreen").style.display = "none";
+}
+
+// Function to show results and ask if the player would like to play again
+function playAgain() {
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("endScreen").style.display = "block";
+
+    playerChoice.src = "./photos/unknown.jpeg";
+    cpuChoice.src = "./photos/unknown.jpeg";
+
+    scores.playerScore = 0;
+    scores.cpuScore = 0;
+    round = 1;
+    scoreboard.textContent = `${scores.playerScore} vs. ${scores.cpuScore}`;
+    playerResult.textContent = '';
+    cpuResult.textContent = '';
 }
 
 // Function for the user's choice
@@ -61,37 +81,73 @@ function getComputerChoice() {
 function playGame(userSelection, playerScore, cpuScore) {
     let cpuAnswer = getComputerChoice();
     console.log(`The CPU selected ${cpuAnswer}. Your selection: ${userSelection}`);
-    // scenarios where you would win, tie or lose
-    if ((cpuAnswer === "rock" && userSelection === "paper") || 
-        (cpuAnswer === "paper" && userSelection === "scissors") || 
-        (cpuAnswer === "scissors" && userSelection === "rock")) 
-        {
-            playerResult.textContent = "You Won!";
-            cpuResult.textContent = "You Lost!";
-            scores.playerScore++;
-        } else if (cpuAnswer === userSelection) {
-            playerResult.textContent = "You Tied!";
-            cpuResult.textContent = "You Tied!";
-        } else {
-            playerResult.textContent = "You Lost!";
-            cpuResult.textContent = "You Won!";
-            scores.cpuScore++;
+    // fire vs rock win for player
+    if (userSelection === "paper" && cpuAnswer === "rock") {
+        playerResult.textContent = "You Won!";
+        cpuResult.textContent = "You Lost!";
+        scores.playerScore++;
+        // ending screen preempt
+        cpuFinal.src = './photos/lossByFire.jpeg';
+        playerFinal.src = './photos/playerFire.jpeg';
+    // water vs fire win for player
+    } else if (userSelection === "scissors" && cpuAnswer === "paper") {
+        playerResult.textContent = "You Won!";
+        cpuResult.textContent = "You Lost!";
+        scores.playerScore++;
+        cpuFinal.src = './photos/lossByWater.jpeg';
+        playerFinal.src = './photos/playerWater.jpeg';
+    // earth vs water win for player
+    } else if (userSelection === "rock" && cpuAnswer === "scissors") {
+        playerResult.textContent = "You Won!";
+        cpuResult.textContent = "You Lost!";
+        scores.playerScore++;
+        cpuFinal.src = './photos/lossByEarth.jpeg';
+        playerFinal.src = './photos/playerEarth.jpeg';
+       
+    // cpu wins with fire
+    } else if (cpuAnswer === "paper" && userSelection === "rock") {
+        playerResult.textContent = "You Lost!";
+        cpuResult.textContent = "You Won!";
+        scores.cpuScore++;
+        playerFinal.src = './photos/lossByFire.jpeg';
+        playerFinal.style.transform = 'scaleX(-1)';
+        cpuFinal.src = './photos/cpuFire.jpeg';
+    // cpu wins with Water
+    } else if (cpuAnswer === "scissors" && userSelection === "paper") {
+        playerResult.textContent = "You Lost!";
+        cpuResult.textContent = "You Won!";
+        scores.cpuScore++;
+        playerFinal.src = './photos/lossByWater.jpeg';
+        cpuFinal.src = './photos/cpuWater.jpeg';
+    // cpu wins with Earth
+    } else if (cpuAnswer === "rock" && userSelection === "scissors") {
+        playerResult.textContent = "You Lost!";
+        cpuResult.textContent = "You Won!";
+        scores.cpuScore++;
+        playerFinal.src = './photos/lossByEarth.jpeg';
+        cpuFinal.src = './photos/cpuEarth.jpeg';
+    } else {
+        playerResult.textContent = "You Tied!";
+        cpuResult.textContent = "You Tied!";
     }
     return [playerScore, cpuScore];
 }
 
-// Loop to play x rounds
+// Stop after x wins
 let round = 1;
 let scores = {playerScore: 0, cpuScore: 0};
+let winCondition = 3;
 
 function playRound() {
-    if (scores.playerScore === 5) {
-        scoreboard.textContent = `The winner is: YOU!`;
-    } else if (scores.cpuScore === 5){
-        scoreboard.textContent = `The winner is: THE CPU!`;
+    console.log(`--- Round ${round} ---`)
+    playGame(userSelection, scores);
+    if (scores.playerScore === winCondition) {
+        playAgain();
+        endScreen.textContent = `The winner is: YOU!`;
+    } else if (scores.cpuScore === winCondition){
+        playAgain();
+        endScreen.textContent = `The winner is: THE CPU!`;
     } else {
-        console.log(`--- Round ${round} ---`)
-        playGame(userSelection, scores);
         round++;
         scoreboard.textContent = `${scores.playerScore} vs. ${scores.cpuScore}`;
     }
@@ -99,6 +155,7 @@ function playRound() {
 
 // Variable to track if the countdown is running
 let isCountdownRunning = false;
+const countdownDuration = 3;
 
 // Function to start the countdown
 function countdown() {
@@ -124,7 +181,7 @@ function countdown() {
 
 // Event listener for start button
 startButton.addEventListener("click", () => {
-    showOptions();
+    startGame();
     // Disable the start button
     startButton.disabled = true;
 });
