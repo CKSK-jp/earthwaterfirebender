@@ -5,14 +5,50 @@ body {
 }
 
 #startScreen {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
+
+button {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 60px;
+    font-weight: bold;
+    color: yellow; /* Set the text color */
+    text-shadow:
+    -1px -1px 0 #000, /* Top-left */
+    1px -1px 0 #000,  /* Top-right */
+    -1px 1px 0 #000,  /* Bottom-left */
+    1px 1px 0 #000;   /* Bottom-right */
+}
+
+h2 {
+    font-size: 40px;
+    font-weight: bold;
+    color: red; /* Set the text color */
+    text-shadow:
+    -1px -1px 0 #000, /* Top-left */
+    1px -1px 0 #000,  /* Top-right */
+    -1px 1px 0 #000,  /* Bottom-left */
+    1px 1px 0 #000;   /* Bottom-right */
+}
+
+.asian-font {
+    font-family: "Hanuman", "Noto Sans SC", "KaiTi", cursive;
+  }
+  
 
 #gameScreen {
     display: none;
     text-align: center;
     justify-content: center;
+    height: 100vh;
 }
 
 #endScreen {
@@ -65,8 +101,8 @@ body {
 #cpuArea img,
 #playerArea img,
 #finalPhoto img {
-    width: 300px;
-    height: 200px;
+    width: 400px;
+    height: 300px;
     max-width: 100%;
     max-height: 100%;
     border: 1px solid black;

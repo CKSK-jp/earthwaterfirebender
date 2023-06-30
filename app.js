@@ -9,9 +9,8 @@ let cpuResult = document.getElementById("cpuResult");
 let endScreen = document.getElementById("endResult");
 let playerFinal = document.getElementById("playerFinal");
 let cpuFinal = document.getElementById("cpuFinal");
-const countdownDuration = 3;
-const countdownDisplay = document.getElementById("countDown");
-const startButton = document.getElementById("startButton");
+let countdownDisplay = document.getElementById("countDown");
+let startButton = document.getElementById("startButton");
 
 // Function to toggle between the start and game screen
 function startGame() {
@@ -25,6 +24,9 @@ function playAgain() {
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("gameScreen").style.display = "none";
     document.getElementById("endScreen").style.display = "block";
+
+    playerChoice.src = "./photos/unknown.jpeg";
+    cpuChoice.src = "./photos/unknown.jpeg";
 
     scores.playerScore = 0;
     scores.cpuScore = 0;
@@ -79,21 +81,54 @@ function getComputerChoice() {
 function playGame(userSelection, playerScore, cpuScore) {
     let cpuAnswer = getComputerChoice();
     console.log(`The CPU selected ${cpuAnswer}. Your selection: ${userSelection}`);
-    // scenarios where you would win, tie or lose
-    if ((cpuAnswer === "rock" && userSelection === "paper") || 
-        (cpuAnswer === "paper" && userSelection === "scissors") || 
-        (cpuAnswer === "scissors" && userSelection === "rock")) 
-        {
-            playerResult.textContent = "You Won!";
-            cpuResult.textContent = "You Lost!";
-            scores.playerScore++;
-        } else if (cpuAnswer === userSelection) {
-            playerResult.textContent = "You Tied!";
-            cpuResult.textContent = "You Tied!";
-        } else {
-            playerResult.textContent = "You Lost!";
-            cpuResult.textContent = "You Won!";
-            scores.cpuScore++;
+    // fire vs rock win for player
+    if (userSelection === "paper" && cpuAnswer === "rock") {
+        playerResult.textContent = "You Won!";
+        cpuResult.textContent = "You Lost!";
+        scores.playerScore++;
+        // ending screen preempt
+        cpuFinal.src = './photos/lossByFire.jpeg';
+        playerFinal.src = './photos/playerFire.jpeg';
+    // water vs fire win for player
+    } else if (userSelection === "scissors" && cpuAnswer === "paper") {
+        playerResult.textContent = "You Won!";
+        cpuResult.textContent = "You Lost!";
+        scores.playerScore++;
+        cpuFinal.src = './photos/lossByWater.jpeg';
+        playerFinal.src = './photos/playerWater.jpeg';
+    // earth vs water win for player
+    } else if (userSelection === "rock" && cpuAnswer === "scissors") {
+        playerResult.textContent = "You Won!";
+        cpuResult.textContent = "You Lost!";
+        scores.playerScore++;
+        cpuFinal.src = './photos/lossByEarth.jpeg';
+        playerFinal.src = './photos/playerEarth.jpeg';
+       
+    // cpu wins with fire
+    } else if (cpuAnswer === "paper" && userSelection === "rock") {
+        playerResult.textContent = "You Lost!";
+        cpuResult.textContent = "You Won!";
+        scores.cpuScore++;
+        playerFinal.src = './photos/lossByFire.jpeg';
+        playerFinal.style.transform = 'scaleX(-1)';
+        cpuFinal.src = './photos/cpuFire.jpeg';
+    // cpu wins with Water
+    } else if (cpuAnswer === "scissors" && userSelection === "paper") {
+        playerResult.textContent = "You Lost!";
+        cpuResult.textContent = "You Won!";
+        scores.cpuScore++;
+        playerFinal.src = './photos/lossByWater.jpeg';
+        cpuFinal.src = './photos/cpuWater.jpeg';
+    // cpu wins with Earth
+    } else if (cpuAnswer === "rock" && userSelection === "scissors") {
+        playerResult.textContent = "You Lost!";
+        cpuResult.textContent = "You Won!";
+        scores.cpuScore++;
+        playerFinal.src = './photos/lossByEarth.jpeg';
+        cpuFinal.src = './photos/cpuEarth.jpeg';
+    } else {
+        playerResult.textContent = "You Tied!";
+        cpuResult.textContent = "You Tied!";
     }
     return [playerScore, cpuScore];
 }
@@ -101,7 +136,7 @@ function playGame(userSelection, playerScore, cpuScore) {
 // Stop after x wins
 let round = 1;
 let scores = {playerScore: 0, cpuScore: 0};
-let winCondition = 1;
+let winCondition = 3;
 
 function playRound() {
     console.log(`--- Round ${round} ---`)
@@ -109,11 +144,9 @@ function playRound() {
     if (scores.playerScore === winCondition) {
         playAgain();
         endScreen.textContent = `The winner is: YOU!`;
-        cpuFinal.src = './photos/lossByFire.jpeg'
     } else if (scores.cpuScore === winCondition){
         playAgain();
         endScreen.textContent = `The winner is: THE CPU!`;
-        playerFinal.src = './photos/lossByWater.jpeg'
     } else {
         round++;
         scoreboard.textContent = `${scores.playerScore} vs. ${scores.cpuScore}`;
@@ -122,6 +155,7 @@ function playRound() {
 
 // Variable to track if the countdown is running
 let isCountdownRunning = false;
+const countdownDuration = 3;
 
 // Function to start the countdown
 function countdown() {
