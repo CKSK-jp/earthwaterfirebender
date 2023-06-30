@@ -6,14 +6,32 @@ let cpuChoice = document.getElementById("cpuChoice");
 let scoreboard = document.getElementById("scoreboard");
 let playerResult = document.getElementById("playerResult");
 let cpuResult = document.getElementById("cpuResult");
+let endScreen = document.getElementById("endResult");
+let playerFinal = document.getElementById("playerFinal");
+let cpuFinal = document.getElementById("cpuFinal");
 const countdownDuration = 3;
 const countdownDisplay = document.getElementById("countDown");
 const startButton = document.getElementById("startButton");
 
 // Function to toggle between the start and game screen
-function showOptions() {
+function startGame() {
     document.getElementById("startScreen").style.display = "none";
-    document.getElementById("optionsScreen").style.display = "block";
+    document.getElementById("gameScreen").style.display = "block";
+    document.getElementById("endScreen").style.display = "none";
+}
+
+// Function to show results and ask if the player would like to play again
+function playAgain() {
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("endScreen").style.display = "block";
+
+    scores.playerScore = 0;
+    scores.cpuScore = 0;
+    round = 1;
+    scoreboard.textContent = `${scores.playerScore} vs. ${scores.cpuScore}`;
+    playerResult.textContent = '';
+    cpuResult.textContent = '';
 }
 
 // Function for the user's choice
@@ -80,18 +98,23 @@ function playGame(userSelection, playerScore, cpuScore) {
     return [playerScore, cpuScore];
 }
 
-// Loop to play x rounds
+// Stop after x wins
 let round = 1;
 let scores = {playerScore: 0, cpuScore: 0};
+let winCondition = 1;
 
 function playRound() {
-    if (scores.playerScore === 5) {
-        scoreboard.textContent = `The winner is: YOU!`;
-    } else if (scores.cpuScore === 5){
-        scoreboard.textContent = `The winner is: THE CPU!`;
+    console.log(`--- Round ${round} ---`)
+    playGame(userSelection, scores);
+    if (scores.playerScore === winCondition) {
+        playAgain();
+        endScreen.textContent = `The winner is: YOU!`;
+        cpuFinal.src = './photos/lossByFire.jpeg'
+    } else if (scores.cpuScore === winCondition){
+        playAgain();
+        endScreen.textContent = `The winner is: THE CPU!`;
+        playerFinal.src = './photos/lossByWater.jpeg'
     } else {
-        console.log(`--- Round ${round} ---`)
-        playGame(userSelection, scores);
         round++;
         scoreboard.textContent = `${scores.playerScore} vs. ${scores.cpuScore}`;
     }
@@ -124,7 +147,7 @@ function countdown() {
 
 // Event listener for start button
 startButton.addEventListener("click", () => {
-    showOptions();
+    startGame();
     // Disable the start button
     startButton.disabled = true;
 });
